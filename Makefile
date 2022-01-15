@@ -1,10 +1,10 @@
 VERSION := 1.0.392
 
-CFLAGS := -O2 -fPIC -fstack-clash-protection -fstack-protector-strong -D_FORTIFY_SOURCE=2 -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE -DNDEBUG -static-libgcc
+CFLAGS := -O2 -fPIC -fno-plt -fstack-clash-protection -fstack-protector-strong -D_FORTIFY_SOURCE=2 -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE -DNDEBUG -static-libgcc
 CFLAGS += -Wall -Wextra
 CFLAGS += -DNDEBUG -DSQLITE_ENABLE_COLUMN_METADATA -DSQLITE_ENABLE_FTS3 -DSQLITE_ENABLE_FTS3_PARENTHESIS -DSQLITE_ENABLE_MEMORY_MANAGEMENT -DHAVE_READLINE=0 -DSQLITE_THREADSAFE=1 -DSQLITE_THREAD_OVERRIDE_LOCK=-1 -DTEMP_STORE=1 -DSQLITE_OMIT_DEPRECATED -DSQLITE_ENABLE_RTREE=1 -Isqlite
 
-LDFLAGS := -shared -fPIC -Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now
+LDFLAGS := -shared -fPIC -fno-plt -Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now
 JAVA_HOME := /usr/lib/jvm/java-17-openjdk
 JAVA_CFLAGS := -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/linux
 
