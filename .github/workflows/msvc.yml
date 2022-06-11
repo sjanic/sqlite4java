@@ -40,14 +40,13 @@ jobs:
       - name: Print current directory
         run: dir
 
-      #- name: Build native sqlite library
-      #  run: |
-      #    cl.exe /O1 /c /I$Env:JAVA_HOME/include /I$Env:JAVA_HOME/include/win32 /Isqlite /DNDEBUG /DSQLITE_ENABLE_COLUMN_METADATA /DSQLITE_ENABLE_FTS3 /DSQLITE_ENABLE_FTS3_PARENTHESIS /DSQLITE_ENABLE_MEMORY_MANAGEMENT /DSQLITE_ENABLE_STAT2 /DHAVE_READLINE=0 /DSQLITE_THREADSAFE=1 /DSQLITE_THREAD_OVERRIDE_LOCK=-1 /DTEMP_STORE=1 /DSQLITE_OMIT_DEPRECATED /DSQLITE_ENABLE_RTREE=1 /DSQLITE_OS_WIN=1 sqlite/sqlite3.c
-      #    cl.exe /O1 /c /I$Env:JAVA_HOME/include /I$Env:JAVA_HOME/include/win32 /Isqlite /DNDEBUG /Wall /WX /W3 /wd4711 /wd5045 native/sqlite3_wrap_manual.c
-      #    cl.exe /O1 /c /I$Env:JAVA_HOME/include /I$Env:JAVA_HOME/include/win32 /Isqlite /DNDEBUG /Wall /WX /W3 /wd4711 /wd5045 native/intarray.c
-      
-      #- name: Print sqlite directory
-      #  run: dir sqlite
+      - name: Build native sqlite library
+        run: |
+          cl.exe /O1 /c /I$Env:JAVA_HOME/include /I$Env:JAVA_HOME/include/win32 /Isqlite /DNDEBUG /DSQLITE_ENABLE_COLUMN_METADATA /DSQLITE_ENABLE_FTS3 /DSQLITE_ENABLE_FTS3_PARENTHESIS /DSQLITE_ENABLE_MEMORY_MANAGEMENT /DSQLITE_ENABLE_STAT2 /DHAVE_READLINE=0 /DSQLITE_THREADSAFE=1 /DSQLITE_THREAD_OVERRIDE_LOCK=-1 /DTEMP_STORE=1 /DSQLITE_OMIT_DEPRECATED /DSQLITE_ENABLE_RTREE=1 /DSQLITE_OS_WIN=1 sqlite/sqlite3.c
+          cl.exe /O1 /c /I$Env:JAVA_HOME/include /I$Env:JAVA_HOME/include/win32 /Isqlite /DNDEBUG /Wall /WX /W3 /wd4711 /wd5045 native/sqlite_wrap.c
+          cl.exe /O1 /c /I$Env:JAVA_HOME/include /I$Env:JAVA_HOME/include/win32 /Isqlite /DNDEBUG /Wall /WX /W3 /wd4711 /wd5045 native/sqlite3_wrap_manual.c
+          cl.exe /O1 /c /I$Env:JAVA_HOME/include /I$Env:JAVA_HOME/include/win32 /Isqlite /DNDEBUG /Wall /WX /W3 /wd4711 /wd5045 native/intarray.c
+  
       #- name: Archive production artifacts
       #  uses: actions/upload-artifact@v3
       #  with:
