@@ -38,5 +38,5 @@ jobs:
         with:
           name: dist
           path: |
-            sqlite3.o
+            sqlite3.obj
 
