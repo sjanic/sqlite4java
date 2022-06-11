@@ -56,5 +56,5 @@ jobs:
         with:
           name: dist
           path: |
-            sqlite4java-win32.x64.dll
+            sqlite4java-win32-x64.dll
 
