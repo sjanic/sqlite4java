@@ -30,7 +30,7 @@ jobs:
       - name: Chocolatey Action
         uses: crazy-max/ghaction-chocolatey@v2.0.0
         with:
-          args: -h
+          args: install swig
           
       #- name: Setup Java JDK
       #  uses: actions/setup-java@v3.3.0
