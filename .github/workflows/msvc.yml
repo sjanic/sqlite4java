@@ -27,27 +27,32 @@ jobs:
       - uses: TheMrMilchmann/setup-msvc-dev@v1
         with:
           arch: x64
-      - name: Setup Java JDK
-        uses: actions/setup-java@v3.3.0
+      - name: Chocolatey Action
+        uses: crazy-max/ghaction-chocolatey@v2.0.0
         with:
+          args: -h
+          
+      #- name: Setup Java JDK
+      #  uses: actions/setup-java@v3.3.0
+      #  with:
           # The Java version to set up. Takes a whole or semver Java version. See examples of supported syntax in README file
-          java-version: 11
-          distribution: zulu
-      - name: Print required java environments
-        run: echo $Env:JAVA_HOME
-      - name: Build native sqlite library
-        run: |
-          cl.exe /O1 /c /I$Env:JAVA_HOME/include /I$Env:JAVA_HOME/include/win32 /Isqlite /DNDEBUG /DSQLITE_ENABLE_COLUMN_METADATA /DSQLITE_ENABLE_FTS3 /DSQLITE_ENABLE_FTS3_PARENTHESIS /DSQLITE_ENABLE_MEMORY_MANAGEMENT /DSQLITE_ENABLE_STAT2 /DHAVE_READLINE=0 /DSQLITE_THREADSAFE=1 /DSQLITE_THREAD_OVERRIDE_LOCK=-1 /DTEMP_STORE=1 /DSQLITE_OMIT_DEPRECATED /DSQLITE_ENABLE_RTREE=1 /DSQLITE_OS_WIN=1 sqlite/sqlite3.c
-          cl.exe /O1 /c /I$Env:JAVA_HOME/include /I$Env:JAVA_HOME/include/win32 /Isqlite /DNDEBUG /Wall /WX /W3 /wd4711 /wd5045 native/sqlite3_wrap_manual.c
-          cl.exe /O1 /c /I$Env:JAVA_HOME/include /I$Env:JAVA_HOME/include/win32 /Isqlite /DNDEBUG /Wall /WX /W3 /wd4711 /wd5045 native/intarray.c
-      - name: Print current directory
-        run: dir
-      - name: Print sqlite directory
-        run: dir sqlite
-      - name: Archive production artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: dist
-          path: |
-            sqlite3.obj
+      #    java-version: 11
+      #    distribution: zulu
+      #- name: Print required java environments
+      #  run: echo $Env:JAVA_HOME
+      #- name: Build native sqlite library
+      #  run: |
+      #    cl.exe /O1 /c /I$Env:JAVA_HOME/include /I$Env:JAVA_HOME/include/win32 /Isqlite /DNDEBUG /DSQLITE_ENABLE_COLUMN_METADATA /DSQLITE_ENABLE_FTS3 /DSQLITE_ENABLE_FTS3_PARENTHESIS /DSQLITE_ENABLE_MEMORY_MANAGEMENT /DSQLITE_ENABLE_STAT2 /DHAVE_READLINE=0 /DSQLITE_THREADSAFE=1 /DSQLITE_THREAD_OVERRIDE_LOCK=-1 /DTEMP_STORE=1 /DSQLITE_OMIT_DEPRECATED /DSQLITE_ENABLE_RTREE=1 /DSQLITE_OS_WIN=1 sqlite/sqlite3.c
+      #    cl.exe /O1 /c /I$Env:JAVA_HOME/include /I$Env:JAVA_HOME/include/win32 /Isqlite /DNDEBUG /Wall /WX /W3 /wd4711 /wd5045 native/sqlite3_wrap_manual.c
+      #    cl.exe /O1 /c /I$Env:JAVA_HOME/include /I$Env:JAVA_HOME/include/win32 /Isqlite /DNDEBUG /Wall /WX /W3 /wd4711 /wd5045 native/intarray.c
+      #- name: Print current directory
+      #  run: dir
+      #- name: Print sqlite directory
+      #  run: dir sqlite
+      #- name: Archive production artifacts
+      #  uses: actions/upload-artifact@v3
+      #  with:
+      #    name: dist
+      #    path: |
+      #      sqlite3.obj
 
