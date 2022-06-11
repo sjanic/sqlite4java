@@ -27,3 +27,6 @@ jobs:
       - uses: TheMrMilchmann/setup-msvc-dev@v1
         with:
           arch: x64
+      - name: Build native sqlite library
+        run: cl.exe /O1 /c /Isqlite /DNDEBUG -Fo sqlite3.o sqlite/sqlite3.c
+
