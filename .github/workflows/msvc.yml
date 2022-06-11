@@ -49,7 +49,7 @@ jobs:
           
       - name: Link built object files to final binary
         run: |
-          link.exe /nologo /DLL /opt:REF /incremental:no /OUT:sqlite4java-win32-x64.dll sqlite3.o sqlite_wrap.obj sqlite3_wrap_manual.obj intarray.obj
+          link.exe /nologo /DLL /opt:REF /incremental:no /OUT:sqlite4java-win32-x64.dll sqlite3.obj sqlite_wrap.obj sqlite3_wrap_manual.obj intarray.obj
   
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
