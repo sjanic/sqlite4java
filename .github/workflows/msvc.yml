@@ -28,7 +28,11 @@ jobs:
         with:
           arch: x64
       - name: Build native sqlite library
-        run: cl.exe /VERBOSE /O1 /c /Isqlite /DNDEBUG sqlite/sqlite3.c
+        run: cl.exe /O1 /c /Isqlite /DNDEBUG sqlite/sqlite3.c
+      - name: Print current directory
+        run: dir
+      - name: Print sqlite directory
+        run: dir sqlite
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
         with:
