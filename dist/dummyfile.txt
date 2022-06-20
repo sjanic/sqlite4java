@@ -1,0 +1,1 @@
+This is a dummy file, with the intent of making Git make a folder called "dist". :)

@@ -1,0 +1,60 @@
+name: msvc
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  # Path to the solution file relative to the root of the project.
+  SOLUTION_FILE_PATH: .
+
+  # Configuration type to build.
+  # You can convert this to a build matrix if you need coverage of multiple configuration types.
+  # https://docs.github.com/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+  BUILD_CONFIGURATION: Release
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: TheMrMilchmann/setup-msvc-dev@v1
+        with:
+          arch: x64
+          
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3.3.0
+        with:
+          java-version: 11
+          distribution: zulu
+          
+      - name: Make swig file for binary
+        run: swig -java -package com.almworks.sqlite4java -o sqlite_wrap.c swig/sqlite.i
+        
+      - name: Print current directory
+        run: dir
+
+      - name: Build native sqlite library
+        run: |
+          cl.exe /O1 /c /I$Env:JAVA_HOME/include /I$Env:JAVA_HOME/include/win32 /Isqlite /DNDEBUG /DSQLITE_ENABLE_COLUMN_METADATA /DSQLITE_ENABLE_FTS3 /DSQLITE_ENABLE_FTS3_PARENTHESIS /DSQLITE_ENABLE_MEMORY_MANAGEMENT /DSQLITE_ENABLE_STAT2 /DHAVE_READLINE=0 /DSQLITE_THREADSAFE=1 /DSQLITE_THREAD_OVERRIDE_LOCK=-1 /DTEMP_STORE=1 /DSQLITE_OMIT_DEPRECATED /DSQLITE_ENABLE_RTREE=1 /DSQLITE_OS_WIN=1 sqlite/sqlite3.c
+          cl.exe /O1 /c /I$Env:JAVA_HOME/include /I$Env:JAVA_HOME/include/win32 /Isqlite /DNDEBUG /Wall /WX /W3 /wd4711 /wd5045 sqlite_wrap.c
+          cl.exe /O1 /c /I$Env:JAVA_HOME/include /I$Env:JAVA_HOME/include/win32 /Isqlite /DNDEBUG /Wall /WX /W3 /wd4711 /wd5045 native/sqlite3_wrap_manual.c
+          cl.exe /O1 /c /I$Env:JAVA_HOME/include /I$Env:JAVA_HOME/include/win32 /Isqlite /DNDEBUG /Wall /WX /W3 /wd4711 /wd5045 native/intarray.c
+          
+      - name: Link built object files to final binary
+        run: |
+          link.exe /nologo /DLL /opt:REF /incremental:no /OUT:sqlite4java-win32-x64.dll sqlite3.obj sqlite_wrap.obj sqlite3_wrap_manual.obj intarray.obj
+  
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: |
+            sqlite4java-win32-x64.dll
+
